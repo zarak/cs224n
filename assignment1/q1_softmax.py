@@ -27,16 +27,22 @@ def softmax(x):
     x -- You are allowed to modify x in-place
     """
     orig_shape = x.shape
+    c = -np.max(x)
 
     if len(x.shape) > 1:
         # Matrix
         ### YOUR CODE HERE
-        raise NotImplementedError
+        c = -np.max(x, axis=1).reshape(x.shape[0], 1)
+        numerator = np.exp(x + c)
+        denominator = np.sum(numerator, axis=1)
+        x = numerator / denominator
         ### END YOUR CODE
     else:
         # Vector
         ### YOUR CODE HERE
-        raise NotImplementedError
+        numerator = np.exp(x + c)
+        denominator = np.sum(numerator)
+        x = numerator / denominator
         ### END YOUR CODE
 
     assert x.shape == orig_shape
